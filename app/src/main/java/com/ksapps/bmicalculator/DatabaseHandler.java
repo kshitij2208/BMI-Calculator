@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE history(date TEXT,bmi FLOAT)");
+        db.execSQL("CREATE TABLE history(name TEXT,date TEXT,bmi FLOAT)");
     }
 
     @Override
@@ -33,8 +33,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void addItem(String date, double bmi){
+    public void addItem(String name,String date, double bmi){
         ContentValues values = new ContentValues();
+        values.put("name",name);
         values.put("date",date);
         values.put("bmi",bmi);
         long rid = db.insert("history",null,values);
@@ -46,8 +47,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
     }
 
-    public String getAllItems(){
-        Cursor cursor = db.query("history",new String[]{"date","bmi"},null,null,null,null,null);
+    public String getAllItems(String name){
+        String where = "name = '"+name+"'";
+        Cursor cursor = db.query("history",new String[]{"date","bmi"},where,null,null,null,null);
         int dateColumn = cursor.getColumnIndex("date");
         int bmiColumn = cursor.getColumnIndex("bmi");
         String allItems="";

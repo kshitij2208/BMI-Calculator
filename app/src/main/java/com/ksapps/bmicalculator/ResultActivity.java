@@ -84,9 +84,11 @@ public class ResultActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
+                String name = sp1.getString("name","");
 
                 String currentTime = Calendar.getInstance().getTime().toString();
-                dbH.addItem(currentTime, finalBmi);
+                dbH.addItem(name,currentTime, finalBmi);
             }
         });
     }
