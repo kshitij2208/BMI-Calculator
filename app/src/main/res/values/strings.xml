@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BMI Calculator</string>
+    <string name="already"><u>Already a User?</u></string>
 </resources>

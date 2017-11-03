@@ -54,16 +54,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String weigh = etWeight.getText().toString();
-                if(weigh.length() == 0){
-                    etWeight.setError("Please enter your weight");
-                    etWeight.requestFocus();
-                    return;
-                }
                 int feet = feets[spFeet.getSelectedItemPosition()]*12;
                 int inch = inches[spInch.getSelectedItemPosition()];
                 double height = (feet+inch)*0.0254;
                 double weight = Integer.parseInt(weigh);
                 double bmi = weight/(height*height);
+
+                if(weigh.length() == 0 || weight > 200){
+                    etWeight.setError("Please enter your proper weight");
+                    etWeight.requestFocus();
+                    return;
+                }
+
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 intent.putExtra("bmi",bmi);
                 startActivity(intent);
@@ -96,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
             Intent i = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(i);
+            finish();
         }
         if(item.getItemId() == R.id.About){
-            Snackbar.make(findViewById(android.R.id.content),"App developed by KS",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content),"App developed by KSapps",Snackbar.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

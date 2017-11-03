@@ -55,7 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         String allItems="";
         cursor.moveToFirst();
 
-        if((cursor!= null && (cursor.getCount() > 0))||allItems.length() == 0){
+        if((cursor!= null && (cursor.getCount() > 0))||allItems.length() != 0){
             do{
                 String date = cursor.getString(dateColumn);
                 String bmi = cursor.getString(bmiColumn);

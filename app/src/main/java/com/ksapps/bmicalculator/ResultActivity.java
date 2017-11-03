@@ -35,6 +35,8 @@ public class ResultActivity extends AppCompatActivity {
         btnShare = (Button)findViewById(R.id.btnShare);
         btnSave = (Button)findViewById(R.id.btnSave);
 
+        btnSave.setEnabled(true);
+
         final Intent i = getIntent();
         double bmi = Math.round(i.getDoubleExtra("bmi",0)*100);
         bmi = bmi/100;
@@ -89,6 +91,8 @@ public class ResultActivity extends AppCompatActivity {
 
                 String currentTime = Calendar.getInstance().getTime().toString();
                 dbH.addItem(name,currentTime, finalBmi);
+
+                btnSave.setEnabled(false);
             }
         });
     }
