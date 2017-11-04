@@ -1,6 +1,7 @@
 package com.ksapps.bmicalculator;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -15,6 +16,9 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        int o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        setRequestedOrientation(o);
 
         sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
         String name = sp1.getString("name","");

@@ -67,5 +67,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return allItems;
     }
 
+    public String[] getNames(){
+        Cursor cursor = db.query(true,"history",new String[]{"name"},null,null,"name",null,null,null);
+        int nameColumn = cursor.getColumnIndex("name");
+        String[] allNames = new String[100];
+        cursor.moveToFirst();
+        int i = 0;
+        if(cursor!= null && (cursor.getCount() > 0)){
+            do{
+                String name = cursor.getString(nameColumn);
+                allNames[i++] = name;
+            }while (cursor.moveToNext());
+        }else{
+
+        }
+        return allNames;
+    }
 
 }

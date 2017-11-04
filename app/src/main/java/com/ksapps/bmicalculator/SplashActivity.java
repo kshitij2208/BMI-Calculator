@@ -1,6 +1,7 @@
 package com.ksapps.bmicalculator;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -16,6 +17,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        int o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        setRequestedOrientation(o);
 
         im1 = (ImageView)findViewById(R.id.im1);
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.a1);

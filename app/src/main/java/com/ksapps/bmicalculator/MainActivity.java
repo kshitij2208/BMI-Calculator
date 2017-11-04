@@ -1,11 +1,15 @@
 package com.ksapps.bmicalculator;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        setRequestedOrientation(o);
 
         tvName = (TextView)findViewById(R.id.tvWelcome);
         spFeet = (Spinner)findViewById(R.id.spFeet);
@@ -57,10 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 int feet = feets[spFeet.getSelectedItemPosition()]*12;
                 int inch = inches[spInch.getSelectedItemPosition()];
                 double height = (feet+inch)*0.0254;
-                double weight = Integer.parseInt(weigh);
+                double weight;
+                if(weigh.length() != 0)
+                    weight = Integer.parseInt(weigh);
+                else{
+                    weight = 0;
+                }
                 double bmi = weight/(height*height);
 
-                if(weigh.length() == 0 || weight > 200){
+                if(weigh.length() == 0 || weight == 0){
                     etWeight.setError("Please enter your proper weight");
                     etWeight.requestFocus();
                     return;
@@ -104,5 +116,32 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(findViewById(android.R.id.content),"App developed by KSapps",Snackbar.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to exit?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.setTitle("Exit");
+        alert.show();
+
     }
 }

@@ -11,7 +11,9 @@
     tools:context="com.ksapps.bmicalculator.MainActivity">
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/tvWelcome"
@@ -94,6 +96,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:nextFocusUp="@id/etWeight"
+        android:nextFocusLeft="@id/etWeight"
         android:hint="Enter your weight"
         android:inputType="number" />
 
