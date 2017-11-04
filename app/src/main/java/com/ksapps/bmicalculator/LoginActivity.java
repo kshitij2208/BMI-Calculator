@@ -12,12 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
+import static com.ksapps.bmicalculator.R.id.etName;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText etLoginName;
-    Button btnLogin;
+    Button btnLogin,btnBack2;
     SharedPreferences sp1;
 
     @Override
@@ -32,10 +36,14 @@ public class LoginActivity extends AppCompatActivity {
 
         etLoginName = (EditText)findViewById(R.id.etLoginName);
         btnLogin = (Button)findViewById(R.id.btnLogin);
+        btnBack2 = (Button)findViewById(R.id.btnBack2);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
+
                 String name = etLoginName.getText().toString();
                 if(name.length()== 0){
                     etLoginName.setError("Please enter Name");
@@ -43,26 +51,42 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                String[] names = dbH.getNames();
-                int i=0;
-                while(i<names.length){
-                    if(name.equals(names[i++])){
-                        sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
+                List<String> names = Arrays.asList(sp1.getString("name","").split("\\s*,\\s*"));
+                List<String> ages = Arrays.asList(sp1.getString("age","").split("\\s*,\\s*"));
+                List<String> phones = Arrays.asList(sp1.getString("phone","").split("\\s*,\\s*"));
+                List<String> genders = Arrays.asList(sp1.getString("gender","").split("\\s*,\\s*"));
+                int i = 0;
+                while(i<names.size()){
+                    if(name.equals(names.get(i))){
+
+                        //sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp1.edit();
-                        editor.putString("name",name);
+                        editor.putString("currentName", name);
+                        editor.putString("currentAge",ages.get(i));
+                        editor.putString("currentPhone", phones.get(i));
+                        editor.putString("currentGender",genders.get(i));
+                        editor.putInt("flag",0);
                         editor.commit();
 
                         Intent i1 = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i1);
                         finish();
-                        return;
+                        break;
                     }
+                    i++;
                 }
-                if(i== names.length) {
+                if(i== names.size()) {
                     Toast.makeText(LoginActivity.this, "No User with name " + name,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
+            }
+        });
+
+        btnBack2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
@@ -70,27 +94,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to exit?");
-        builder.setCancelable(false);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.setTitle("Exit");
-        alert.show();
-
+        Intent i1 = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(i1);
+        finish();
     }
 }

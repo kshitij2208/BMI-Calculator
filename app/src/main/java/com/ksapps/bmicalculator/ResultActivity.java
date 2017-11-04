@@ -70,10 +70,10 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
-        String name = sp1.getString("name","");
-        String age = sp1.getString("age","");
-        String phone = sp1.getString("phone","");
-        String gender = sp1.getString("gender","");
+        String name = sp1.getString("currentName","");
+        String age = sp1.getString("currentAge","");
+        String phone = sp1.getString("currentPhone","");
+        String gender = sp1.getString("currentGender","");
         final String msg = "Name:"+name+"\nAge: "+age+"\nPhone: "+phone+"\nGender: "+gender+"\nBMI: "
                 +bmi+"\nYou are "+bmiType;
 
@@ -91,7 +91,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
-                String name = sp1.getString("name","");
+                String name = sp1.getString("currentName","");
 
                 String currentTime = Calendar.getInstance().getTime().toString();
                 dbH.addItem(name,currentTime, finalBmi);

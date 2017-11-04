@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import static android.R.attr.name;
 import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         btnViewHistory = (Button)findViewById(R.id.btnViewHistory);
 
         sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
-        String name = sp1.getString("name","");
+        String name = sp1.getString("currentName","");
         tvName.setText("Welcome : "+ name);
 
         final Integer[] feets ={1,2,3,4,5,6,7,8,9};
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 double bmi = weight/(height*height);
 
-                if(weigh.length() == 0 || weight == 0){
+                if(weight == 0 || weight > 450){
                     etWeight.setError("Please enter your proper weight");
                     etWeight.requestFocus();
                     return;

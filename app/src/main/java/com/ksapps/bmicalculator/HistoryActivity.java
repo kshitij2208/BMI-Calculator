@@ -21,7 +21,7 @@ public class HistoryActivity extends AppCompatActivity {
         setRequestedOrientation(o);
 
         sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
-        String name = sp1.getString("name","");
+        String name = sp1.getString("currentName","");
 
         DatabaseHandler dbH = new DatabaseHandler(this);
 

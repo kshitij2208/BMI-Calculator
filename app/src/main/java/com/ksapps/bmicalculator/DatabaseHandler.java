@@ -25,11 +25,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE history(name TEXT,date TEXT,bmi FLOAT)");
+        //db.execSQL("CREATE TABLE users(name TEXT,age TEXT,phone TEXT,gender TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS history");
+        //db.execSQL("DROP TABLE IF EXISTS users");
         onCreate(db);
     }
 
@@ -67,21 +69,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return allItems;
     }
 
-    public String[] getNames(){
-        Cursor cursor = db.query(true,"history",new String[]{"name"},null,null,"name",null,null,null);
-        int nameColumn = cursor.getColumnIndex("name");
-        String[] allNames = new String[100];
-        cursor.moveToFirst();
-        int i = 0;
-        if(cursor!= null && (cursor.getCount() > 0)){
-            do{
-                String name = cursor.getString(nameColumn);
-                allNames[i++] = name;
-            }while (cursor.moveToNext());
-        }else{
-
-        }
-        return allNames;
-    }
+//    public String[] getNames(){
+//        Cursor cursor = db.query(true,"history",new String[]{"name"},null,null,"name",null,null,null);
+//        int nameColumn = cursor.getColumnIndex("name");
+//        String[] allNames = new String[100];
+//        cursor.moveToFirst();
+//        int i = 0;
+//        if(cursor!= null && (cursor.getCount() > 0)){
+//            do{
+//                String name = cursor.getString(nameColumn);
+//                allNames[i++] = name;
+//            }while (cursor.moveToNext());
+//        }else{
+//
+//        }
+//        return allNames;
+//    }
 
 }

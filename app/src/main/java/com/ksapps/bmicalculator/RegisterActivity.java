@@ -4,9 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static android.R.attr.name;
 import static android.R.id.edit;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -44,14 +50,13 @@ public class RegisterActivity extends AppCompatActivity {
         tvAlready = (TextView)findViewById(R.id.tvAlready);
 
         sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
-
-        String name = sp1.getString("name", "");
-
+        String name = sp1.getString("currentName", "/");
+        Log.d("names",name+" "+sp1.getInt("flag",0));
         if (sp1.getInt("flag",0) == 0) {
-            if (name.equals("")) {
+            if (name.equals("/")) {
                 setBtnRegister();
             } else {
-
+                Log.d("hello","hello");
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
@@ -65,13 +70,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }
 
     public void setBtnRegister(){
-
-        final DatabaseHandler dbH = new DatabaseHandler(this);
 
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -79,16 +83,19 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                sp1 = getSharedPreferences("MyP1", MODE_PRIVATE);
+
                 String name = etName.getText().toString();
                 String age = etAge.getText().toString();
                 String phone = etPhone.getText().toString();
                 RadioButton rbGender = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
                 String gender = rbGender.getText().toString();
                 String error = "INVALID:\n";
+
                 if (name.length() == 0) {
                     error += "Name\n";
                 }
-                if (age.length() == 0) {
+                if (age.length() == 0 || Integer.parseInt(age) > 120) {
                     error += "Age\n";
                 }
                 if (phone.length() != 10) {
@@ -98,22 +105,48 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String[] names = dbH.getNames();
+                List<String> names = Arrays.asList(sp1.getString("name","").split("\\s*,\\s*"));
                 int i = 0;
-                while(i<names.length){
-                    if(name.equals(names[i++])){
+                Log.d("hello",sp1.getString("name",""));
+
+                while(i<names.size()){
+                    if(name.equals(names.get(i++))){
                         etName.setError("User already exists");
                         etName.requestFocus();
                         return;
                     }
                 }
 
+                String spName = sp1.getString("name", "");
+                String spAge = sp1.getString("age","");
+                String spPhone = sp1.getString("phone","");
+                String spGender = sp1.getString("gender","");
+
+                if(spName.length() != 0) {
+                    spName = spName + "," + name;
+                    spAge = spAge + "," + age;
+                    spPhone = spPhone + "," + phone;
+                    spGender = spGender + "," + gender;
+                } else {
+                    spName = name;
+                    spAge = age;
+                    spPhone = phone;
+                    spGender = gender;
+                }
+
                 SharedPreferences.Editor editor = sp1.edit();
-                editor.putString("name", name);
-                editor.putString("age", age);
-                editor.putString("phone", phone);
-                editor.putString("gender", gender);
-                editor.putInt("flag",flag);
+                editor.putString("currentName", name);
+                editor.putString("currentAge",age);
+                editor.putString("currentPhone",phone);
+                //Log.d("current",age+ " " + phone);
+                editor.putString("currentGender",gender);
+                editor.putString("name", spName);
+                Log.d("h1",sp1.getString("name",""));
+                editor.putString("age", spAge);
+                editor.putString("phone", spPhone);
+                editor.putString("gender", spGender);
+                editor.putInt("flag",0);
+                Log.d("names"," "+sp1.getInt("flag",0));
                 editor.commit();
 
                 Intent i1 = new Intent(RegisterActivity.this, MainActivity.class);
