@@ -44,6 +44,9 @@ public class ResultActivity extends AppCompatActivity {
         final Intent i = getIntent();
         double bmi = Math.round(i.getDoubleExtra("bmi",0)*100);
         bmi = bmi/100;
+        int feet = i.getIntExtra("feet",1)/12;
+        int inch = i.getIntExtra("inch",0);
+        double weight = i.getDoubleExtra("weight",0);
         String bmiType="";
 
         if(bmi<18.5){
@@ -59,7 +62,8 @@ public class ResultActivity extends AppCompatActivity {
             bmiType="Obese";
             tvObese.setTextColor(Color.parseColor("#ff0000"));
         }
-        tvResult.setText("Your BMI is "+bmi+" and you are "+bmiType);
+        tvResult.setText("Your height is "+feet+" feets "+inch+" inches and weight is "
+                +weight+" kgs\n"+"Your BMI is "+bmi+" and you are "+bmiType);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

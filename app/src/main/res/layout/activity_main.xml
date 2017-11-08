@@ -104,20 +104,31 @@
         android:id="@+id/btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/etWeight"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp"
-        android:text="Calculate" />
+        android:layout_marginTop="15dp"
+        />
 
     <Button
         android:id="@+id/btnViewHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="View History"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/etWeight"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp"
-        android:text="View History" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Speak"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSpeak"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btnCalculate"
+        android:layout_toStartOf="@+id/btnCalculate" />
+
 
 </RelativeLayout>
 </ScrollView>
