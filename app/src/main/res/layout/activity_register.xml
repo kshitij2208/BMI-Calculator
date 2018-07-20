@@ -25,6 +25,7 @@
 
     <EditText
         android:id="@+id/etName"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPD"
@@ -54,7 +55,7 @@
         android:layout_marginTop="33dp"
         android:ems="10"
         android:hint="Enter your phone number"
-        android:inputType="phone" />
+        android:inputType="number" />
 
     <RadioGroup
         android:id="@+id/rgGender"
